@@ -3,15 +3,17 @@ import json
 from json import JSONEncoder
 from .Card import Card
 
+
 class CardEncoder(JSONEncoder):
-    def default(self, object):
-        if isinstance(object, Card):
-            return object.__dict__
+    def default(self, obj):
+        if isinstance(obj, Card):
+            return obj.__dict__
         else:
-            return json.JSONEncoder.default(self, object)
-    
-    def as_card(dict):
-        if 'eng' in dict and 'kana' in dict and 'word' in dict:
-            return Card(dict['word'], dict['eng'], dict['kana'])
+            return json.JSONEncoder.default(self, obj)
+
+    @staticmethod
+    def as_card(card_dict):
+        if 'eng' in card_dict and 'kana' in card_dict and 'word' in card_dict:
+            return Card(card_dict['word'], card_dict['eng'], card_dict['kana'])
         else:
             raise Exception('Not a Card.')
