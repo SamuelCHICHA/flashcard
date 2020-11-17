@@ -14,6 +14,6 @@ class CardEncoder(JSONEncoder):
     @staticmethod
     def as_card(card_dict):
         if 'eng' in card_dict and 'kana' in card_dict and 'word' in card_dict:
-            return Card(card_dict['word'], card_dict['eng'], card_dict['kana'])
+            return Card(word=card_dict['word'], eng=card_dict['eng'], kana=card_dict['kana'])
         else:
             raise Exception('Not a Card.')

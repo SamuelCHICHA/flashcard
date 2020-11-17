@@ -14,7 +14,7 @@ def main():
     with open(sys.argv[1], "r", encoding="utf16") as word_bank:
         read = csv.DictReader(word_bank)
         for line in read:
-            cards.append(Card(line['Word'], line['Kana'], line['English']))
+            cards.append(Card(word=line['Word'], kana=line['Kana'], eng=line['English']))
     bank.save(cards)
 
 
