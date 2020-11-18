@@ -1,5 +1,4 @@
 import sys
-import tkinter as tk
 
 from app.Application import Application
 from app.Bank import Bank
@@ -11,8 +10,7 @@ def main():
         sys.exit()
     bank = Bank()
     cards = bank.load(int(sys.argv[1]))
-    root = tk.Tk()
-    app = Application(cards, master=root)
+    app = Application(cards)
     app.gui.mainloop()
 
 

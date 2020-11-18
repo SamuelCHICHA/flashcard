@@ -4,8 +4,8 @@ import random as rd
 
 
 class Application:
-    def __init__(self, cards, master=None):
-        self.gui = GUI(master)
+    def __init__(self, cards):
+        self.gui = GUI()
         self.cards = cards
         self.gui.correct_btn.bind('<Button-1>', self.correct)
         self.gui.incorrect_btn.bind('<Button-1>', self.incorrect)
