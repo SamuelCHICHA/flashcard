@@ -1,49 +1,34 @@
-import tkinter as tk
+from .GUI import GUI
+
+import random as rd
 
 
-class Application(tk.Frame):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.fullscreen = False
-        self.master = master
-        self.master.protocol('WM_DELETE_WINDOW', self.master.destroy)
-        self.incorrect_btn = tk.Button(self, text="Incorrect", command=self.incorrect)
-        self.correct_btn = tk.Button(self, text="Correct", command=self.correct)
-        self.check_btn = tk.Button(self, text='Check', command=self.check)
-        self.content = tk.StringVar()
-        self.complementary_content = tk.StringVar()
-        self.label = tk.Label(self, textvariable=self.content)
-        self.complementary_label = tk.Label(self, textvariable=self.complementary_content)
-        self.master.geometry("{0}x{1}+0+0".format(self.master.winfo_screenwidth(), self.master.winfo_screenheight()))
-        self.master.bind('<KeyRelease-F12>', self.toggle_fullscreen_mode)
-        self.pack()
-        self.init_pack()
+class Application:
+    def __init__(self, cards, master=None):
+        self.gui = GUI(master)
+        self.cards = cards
+        self.gui.correct_btn.bind('<Button-1>', self.correct)
+        self.gui.incorrect_btn.bind('<Button-1>', self.incorrect)
+        self.gui.check_btn.bind('<Button-1>', self.check)
+        self.gui.write(cards[0].word, cards[0].kana)
 
-    def init_pack(self):
-        self.check_btn.pack(side='bottom')
-        self.label.pack()
-        self.complementary_label.pack()
+    def incorrect(self, event):
+        self.cards.insert(rd.randint(0, len(self.cards) - 1), self.cards.pop(0))
+        self.validate()
 
-    def write(self, text="", complementary=""):
-        self.content.set(text)
-        self.complementary_content.set(complementary)
-
-    def check(self):
-        self.check_btn.pack_forget()
-        self.correct_btn.pack(side='right')
-        self.incorrect_btn.pack(side='left')
+    def correct(self, event):
+        self.cards.pop(0)
+        if len(self.cards) > 0:
+            self.validate()
+        else:
+            self.gui.incorrect_btn.pack_forget()
+            self.gui.correct_btn.pack_forget()
+            self.gui.write("Congratulations !")
 
     def validate(self):
-        self.correct_btn.pack_forget()
-        self.incorrect_btn.pack_forget()
-        self.check_btn.pack(side='bottom')
+        self.gui.validate()
+        self.gui.write(self.cards[0].word, self.cards[0].kana)
 
-    def incorrect(self):
-        self.validate()
-
-    def correct(self):
-        self.validate()
-
-    def toggle_fullscreen_mode(self, event):
-        self.fullscreen = not self.fullscreen
-        self.master.attributes('-fullscreen', self.fullscreen)
+    def check(self, event):
+        self.gui.check()
+        self.gui.write(self.cards[0].eng)

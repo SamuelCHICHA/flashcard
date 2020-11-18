@@ -1,7 +1,8 @@
-from app.Bank import Bank
-from app.Application import Application
+import sys
+import tkinter as tk
 
-import sys, tkinter as tk
+from app.Application import Application
+from app.Bank import Bank
 
 
 def main():
@@ -11,12 +12,8 @@ def main():
     bank = Bank()
     cards = bank.load(int(sys.argv[1]))
     root = tk.Tk()
-    gui = Application(master=root)
-    gui.master.title("Flashcard")
-
-    gui.mainloop()
-    for card in cards:
-        print(f"{card}")
+    app = Application(cards, master=root)
+    app.gui.mainloop()
 
 
 if __name__ == "__main__":
