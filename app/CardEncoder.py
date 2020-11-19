@@ -4,6 +4,8 @@ from json import JSONEncoder
 from .Card import Card
 
 
+# Enable the encoding of the class Card in JSON
+
 class CardEncoder(JSONEncoder):
     def default(self, obj):
         if isinstance(obj, Card):

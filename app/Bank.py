@@ -6,12 +6,14 @@ from sys import stderr
 from .CardEncoder import CardEncoder
 
 
+# Handles the bank of word.
+
 class Bank:
     def __init__(self, path_to_bank="data/bank.json", path_to_done="done.json"):
         self.path_to_bank = path_to_bank
         self.path_to_done = path_to_done
 
-    def load(self, nb_card):
+    def load(self, nb_card=20):
         with open(self.path_to_bank, "r", encoding="utf16") as bank_file:
             cards = json.load(bank_file, object_hook=CardEncoder.as_card)
         random.shuffle(cards)
